@@ -11,7 +11,7 @@ class CheckoutItem extends Component{
         
         const {cartItem,clearItem,remove,addItem,modal,item}=this.props;
         const {imageUrl,price,name,quantity}=cartItem
-        console.log(item);
+        console.log(item); 
 
         return(
             <Fragment>

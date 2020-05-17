@@ -7,11 +7,21 @@ export const selectCollectionItem=createSelector(
 )
 export const selectCollectionItemOver=createSelector(
     [selectCollectionItem],
-    collections=>Object.keys(collections).map(key=>collections[key])
+    collections=> collections ? Object.keys(collections).map(key=>collections[key]): []
 )
 
 export const selectShopOver=collectionUrlParam=>createSelector (
 
     [selectCollectionItem],
-    collections=>collections[collectionUrlParam]
+    collections=>collections ? collections[collectionUrlParam] : null
+)
+
+export const selectFetch=createSelector(
+    [selectCollection],
+    shop=>shop.isFetching
+)
+
+export const selectIsCollectionLoading=createSelector(
+    [selectCollection],
+    shop=>!!shop.collections 
 )

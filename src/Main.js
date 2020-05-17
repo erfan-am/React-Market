@@ -7,34 +7,34 @@ import Auth from './container/Auth/Auth';
 import {connect} from 'react-redux'
 import {auth,createuserProfleDocument} from './firebase/firebase';
 import {setCurrentUser} from './redux/user/user-action';
-import Spinner from './components/Spnner/Spinner';
-import Checkout from './components/Checkout/Checkout'
+import Checkout from './components/Checkout/Checkout';
+import {selectCurrentUser} from './redux/user/user-slector';
+import {createStructuredSelector} from 'reselect'
  class Main extends Component {
 
   unsubscrbeFromAuth=null
   componentDidMount() {
 
     const {setCurrentUser}=this.props
-    this.unsubscrbeFromAuth=auth.onAuthStateChanged(async userAuth=>{
-      if(userAuth){
-     const userRef=await createuserProfleDocument(userAuth)      
-        userRef.onSnapshot(snapshot=>{
-          setCurrentUser({
-            id:snapshot.id,
-              ...snapshot.data()
-            })
+    // this.unsubscrbeFromAuth=auth.onAuthStateChanged(async userAuth=>{
+    //   if(userAuth){
+    //  const userRef=await createuserProfleDocument(userAuth)      
+    //     userRef.onSnapshot(snapshot=>{
+    //       setCurrentUser({
+    //         id:snapshot.id,
+    //           ...snapshot.data()
+    //         })
        
-        })
-      }
-     setCurrentUser(userAuth)
-   
-    })
+    //     })
+    //   }
+    //    setCurrentUser(userAuth);
+    // })
 
   }
   
 
   render() {
-    const {loading,currentUser}=this.props
+    const {currentUser}=this.props
   return (
     <Fragment>
     <Layout/>
@@ -42,16 +42,15 @@ import Checkout from './components/Checkout/Checkout'
       <Route path="/" exact  render={()=><HomePage/>} />
       <Route path="/shop"  render={()=> <ShopPage/> } />
       <Route exact path="/checkout"  component={Checkout} />
-      <Route exact path="/sign" render={()=> loading ? (<Spinner/>) : (currentUser ? (<Redirect to="/"/> ): (<Auth/>) ) } />
+      <Route exact path="/sign" render={()=> (currentUser ? (<Redirect to="/"/> ): (<Auth/>) ) } />
       </Switch>
     </Fragment>
   );
   }
 }
 
-const mapStateToProps=state=>({
-  loading:state.user.loading,
-  currentUser:state.user.currentUser
+const mapStateToProps=createStructuredSelector({
+  currentUser:selectCurrentUser,
 })
 
 const mapDispatchToProps=dispatch=>({

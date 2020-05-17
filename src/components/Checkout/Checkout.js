@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import CheckoutItem from './CheckoutItem/CheckoutItem';
 import StripeButton from '../stripe-button/stripe'
 
-const Checkout = ({cartItems,total,match}) => {
+const Checkout = ({cartItems,total}) => {
     return (
         <div className="container mt-5 pt-3 " style={{overflowX:'hidden'}}>
 
@@ -26,7 +26,7 @@ const Checkout = ({cartItems,total,match}) => {
              <hr/>
 
                  <span className="btn ml-auto font-weight-bold">Total:${total}</span>
-                 <StripeButton price={total}/>
+                 {/* <StripeButton price={total}/> */}
         </div>
             
         

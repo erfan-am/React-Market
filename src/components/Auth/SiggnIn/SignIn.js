@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {signInWthGoogle, auth} from '../../../firebase/firebase'
-export default class SignIn extends Component {
+import {googleSingin,EmailSingin } from '../../../redux/user/user-action'
+import { connect } from 'react-redux'
+ class SignIn extends Component {
     state={
         email:'',
         password:''
@@ -14,19 +15,13 @@ export default class SignIn extends Component {
         e.preventDefault()
 
         const {email,password} =this.state
-        try{
-        await auth.signInWithEmailAndPassword(email,password)
-        this.setState({email:'',password:''})
-
-        
-        
-        }catch(err){
-            alert('some thing is wrong')
-        }
+        const {EmailSingin} =this.props
+        EmailSingin(email,password)
 
     }
     render() {
-        const { email,password}=this.state
+        const { email,password}=this.state;
+        const {googleSingin} =this.props
         return (
            <div className="col-md-6">
            <h2>I already an account </h2>
@@ -46,9 +41,16 @@ export default class SignIn extends Component {
                      
                 </form>
                 <button type="submit" className="btn btn-primary" onClick={this.SubmittHandle}>Sign in</button>
-                <button type="submit" className="btn ml-3 btn-success" onClick={signInWthGoogle}>Sign in With Google</button>
+                <button type="submit" className="btn ml-3 btn-success" onClick={googleSingin}>Sign in With Google</button>
                 
            </div>
         )
     }
 }
+
+const mapDispatchToProps=dispatch=>({
+    googleSingin:()=>dispatch(googleSingin()),
+    EmailSingin:(email,password)=>dispatch(EmailSingin({email,password}))
+})
+
+export default  connect(null,mapDispatchToProps)(SignIn)

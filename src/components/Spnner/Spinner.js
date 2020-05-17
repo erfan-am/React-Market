@@ -1,15 +1,8 @@
 import React from 'react'
-
+import './Spinner.css'
 const Spinner = () => {
 return (
-          <div className="container mt-5 p-5">
-                <div class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only h1"></span>
-                    </div>
-                    </div>
-                            
-          </div>
+    <div className="loader">Loading...</div>    
 )
 }
 
